@@ -1,0 +1,69 @@
+{% extends 'base_gerencia.html' %}
+
+{% block main %}
+
+<h1 class="h3 mb-4 text-gray-800">Cadastrar Nova Categoria</h1>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Informações da Categoria</h6>
+    </div>
+    <div class="card-body">
+        <!-- Exibe mensagens de sucesso ou erro -->
+        {% if messages %}
+        <div>
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- Exibe erros gerais do formulário -->
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                <ul>
+                    {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            <div class="form-group">
+                <label for="id_nome">Nome da Categoria</label>
+                {{ form.nome }}
+                <!-- Exibe erros do campo nome -->
+                {% if form.nome.errors %}
+                <div class="alert alert-danger mt-2">
+                    <ul>
+                        {% for error in form.nome.errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-icon-split">
+                <span class="icon text-white-50">
+                    <i class="fas fa-save"></i>
+                </span>
+                <span class="text">Salvar Categoria</span>
+            </button>
+
+            <a href="{% url 'gerencia:listagem_categoria' %}" class="btn btn-secondary btn-icon-split">
+                <span class="icon text-white-50">
+                    <i class="fas fa-times"></i>
+                </span>
+                <span class="text">Cancelar</span>
+            </a>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
